@@ -1,0 +1,52 @@
+{
+  "general": {
+    "location": "0.0.0.0:80",
+    "debug": false
+  },
+  "service": {
+    "location": "localhost:8080"
+  },
+  "algorithm": {
+    "name": "Heat Diffusion",
+    "author": "Daniel Carlin",
+    "summary": "Accepts a network with heat, and propogates the heat to find new heats",
+    "license": "MIT",
+    "language": "Python",
+    "parameters": [
+      {
+        "key": "time",
+        "description": "The upper bound on the exponential multiplication performed by diffusion",
+        "default": "0.1"
+      },
+      {
+        "key": "input_attribute_name",
+        "description": "The key diffusion will use to search for heats in the node attributes with",
+        "default": "diffusion_input"
+      },
+      {
+        "key": "output_attribute_name",
+        "description": "Will be the prefix of the _rank and _heat attriubtes created by diffusion",
+        "default": "diffusion_output"
+      },
+      {
+        "key": "normalize_laplacian",
+        "description": "If True, will create a normalized laplacian matrix for diffusion",
+        "default": "False"
+      }
+    ],
+    "input": [
+      {
+        "label": "Input",
+        "description": "An input network with heat values attached to nodes",
+        "aspects": ["nodes", "edges", "nodeAttributes"]
+      }
+    ],
+    "output": [
+      {
+        "name": "Output",
+        "description": "An output network with new heats and a rank attribute created by diffusion",
+        "aspects": ["node", "edge", "nodeAttributes"]
+      }
+    ]
+  }
+}
