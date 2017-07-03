@@ -94,7 +94,7 @@ class Stream:
                 attrs.append(attr)
             elif ele_type == 'networkAttribute':
                 attr = ele.networkAttribute
-                network[attr.name] = Stream.parse_value(attr)
+                network.graph[attr.name] = Stream.parse_value(attr)
 
         for attr in attrs:
             source, target = edges[int(attr.edgeId)]

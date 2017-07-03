@@ -63,6 +63,7 @@ class TestFromNetworkX(unittest.TestCase):
         num_nodes = 100
         num_edges = 50
         net = create_random_networkx_mock(num_nodes, num_edges)
+        net.graph['key'] = 'value'
         stream = Stream.from_networkx(net)
         net_res, params = Stream.to_networkx(stream)
         for a, b in net.edges():
@@ -72,6 +73,8 @@ class TestFromNetworkX(unittest.TestCase):
           self.assertEqual(val, net.edge[a][b]['value'])
         for ID, attrs in net.nodes(data=True):
           self.assertEqual(attrs['name'], net_res.node[ID]['name'])
+        self.assertEqual(net.graph, net_res.graph)
+
 
 edges = {}
 def create_random_networkx_mock(num_nodes=100, num_edges=100):
