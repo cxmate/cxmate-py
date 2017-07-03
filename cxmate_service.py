@@ -153,7 +153,7 @@ class NetworkElementBuilder():
         elif isinstance(value, float):
             return 'float', str(value)
         elif isinstance(value, int):
-            return 'int', str(value)
+            return 'integer', str(value)
         return 'string', str(value)
 
     @staticmethod

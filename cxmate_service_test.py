@@ -40,7 +40,7 @@ class TestFromNetworkX(unittest.TestCase):
 
     def testFromValue(self):
         typ, value = NetworkElementBuilder.from_value(1)
-        self.assertEqual(typ, 'int')
+        self.assertEqual(typ, 'integer')
         self.assertEqual(value, '1')
 
         typ, value = NetworkElementBuilder.from_value(False)
@@ -64,7 +64,14 @@ class TestFromNetworkX(unittest.TestCase):
         num_edges = 50
         net = create_random_networkx_mock(num_nodes, num_edges)
         stream = Stream.from_networkx(net)
-        net_res = Stream.to_networkx(stream)
+        net_res, params = Stream.to_networkx(stream)
+        for a, b in net.edges():
+          val = net_res.edge[a][b]['value']
+          if val == '{1: 2}':
+            val = {1: 2}
+          self.assertEqual(val, net.edge[a][b]['value'])
+        for ID, attrs in net.nodes(data=True):
+          self.assertEqual(attrs['name'], net_res.node[ID]['name'])
 
 edges = {}
 def create_random_networkx_mock(num_nodes=100, num_edges=100):
