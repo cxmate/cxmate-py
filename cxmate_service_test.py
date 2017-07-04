@@ -63,17 +63,45 @@ class TestFromNetworkX(unittest.TestCase):
         num_nodes = 100
         num_edges = 50
         net = create_random_networkx_mock(num_nodes, num_edges)
-        net.graph['key'] = 'value'
+        net.graph['keyStr'] = 'value'
+        net.graph['keyInt'] = 1
+        net.graph['keyFloat'] = 1.2
+        net.graph['keyBool'] = True
         stream = Stream.from_networkx(net)
         net_res, params = Stream.to_networkx(stream)
         for a, b in net.edges():
-          val = net_res.edge[a][b]['value']
-          if val == '{1: 2}':
-            val = {1: 2}
-          self.assertEqual(val, net.edge[a][b]['value'])
+            val = net_res.edge[a][b]['value']
+            if val == '{1: 2}':
+                val = {1: 2}
+            self.assertEqual(val, net.edge[a][b]['value'])
         for ID, attrs in net.nodes(data=True):
-          self.assertEqual(attrs['name'], net_res.node[ID]['name'])
+            self.assertEqual(attrs['name'], net_res.node[ID]['name'])
         self.assertEqual(net.graph, net_res.graph)
+    def testUnusualAttributeType(self):
+        num_nodes = 100
+        num_edges = 50
+        net = create_random_networkx_mock(num_nodes, num_edges)
+        net.graph['keyDict'] = {1: 2}
+        stream = Stream.from_networkx(net)
+        net_res, params = Stream.to_networkx(stream)
+        for a, b in net.edges():
+            val = net_res.edge[a][b]['value']
+            self.assertEqual(val, net.edge[a][b]['value'])
+        for ID, attrs in net.nodes(data=True):
+            self.assertEqual(attrs['name'], net_res.node[ID]['name'])
+        # autoconvert to string for unrecognized value types
+        self.assertEqual(str(net.graph['keyDict']), net_res.graph['keyDict'])
+    def testLargeNetwork(self):
+        num_nodes = 100000
+        num_edges = 50000
+        net = create_random_networkx_mock(num_nodes, num_edges)
+        stream = Stream.from_networkx(net)
+        net_res, params = Stream.to_networkx(stream)
+        for a, b in net.edges():
+            val = net_res.edge[a][b]['value']
+            self.assertEqual(val, net.edge[a][b]['value'])
+        for ID, attrs in net.nodes(data=True):
+            self.assertEqual(attrs['name'], net_res.node[ID]['name'])
 
 
 edges = {}
@@ -85,7 +113,7 @@ def create_random_networkx_mock(num_nodes=100, num_edges=100):
     for e_id in range(num_edges):
         n1 = random.randint(0, num_nodes-1)
         n2 = random.randint(0, num_nodes-2)
-        val = random.choice([1, 1.5, 'a', True, {1:2}])
+        val = random.choice([1, 1.5, 'a', True])
         edges[ID] = (n1, n2)
         n.add_edge(n1, n2, id=ID, value=val)
         ID += 1
