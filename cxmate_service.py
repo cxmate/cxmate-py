@@ -10,6 +10,7 @@ import cxmate_pb2
 import cxmate_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
+DEBUG = False
 
 class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
     """
@@ -67,13 +68,17 @@ class Stream:
         :param ele_iter: A stream iterator iterating CX elements
         :returns: A networkx object
         """
+        if DEBUG:
+            print("DEBUG: Converting to NetworkX")
+            start = time.now()
         parameters = {}
         attrs = []
         edges = {}
         network = networkx.Graph()
         for ele in ele_iter:
-            #print 'Processing element'
-            #print ele
+            if DEBUG:
+                print('DEBUG: Processing element')
+                print(ele)
             ele_type = ele.WhichOneof('element')
             if ele_type == 'parameter':
                 param = ele.parameter
@@ -99,9 +104,9 @@ class Stream:
         for attr in attrs:
             source, target = edges[int(attr.edgeId)]
             network[source][target][attr.name] = Stream.parse_value(attr)
-        #print network.nodes(data=True)
-        #print network.edges(data=True)
-        #print parameters
+        if DEBUG:
+            took = time.now() - start
+            print("DEBUG: Conversion completed. Took %s" % took)
         return network, parameters
 
     @staticmethod
@@ -112,6 +117,9 @@ class Stream:
         :param networkx: A networkx object
         :returns: A stream iterator iterating CX elements
         """
+        if DEBUG:
+            print("DEBUG: Converting to stream iterator")
+            start = time.now()
 
         for nodeId, attrs in networkx.nodes(data=True):
             yield NetworkElementBuilder.Node(nodeId, attrs.get('name', ''))
@@ -129,6 +137,10 @@ class Stream:
 
         for key, value in networkx.graph.items():
             yield NetworkElementBuilder.NetworkAttribute(key, value)
+
+        if DEBUG:
+            took = time.now() - start
+            print("DEBUG: Conversion completed. Took %s" % took)
 
     @staticmethod
     def parse_value(attr):
@@ -218,9 +230,9 @@ class Service:
         :param input_stream: A stream iterator yielding CX protobuf objects
         :returns: A stream iterator yielding CX protobuf objects
         """
-        pass
+        raise NotImplementedError
 
-    def run(self, listen_on = '0.0.0.0:8080', max_workers=10):
+    def run(self, listen_on = '0.0.0.0:8080', max_workers=10, debug=False):
         """
         Run starts the service and then waits for a keyboard interupt
 
@@ -228,6 +240,9 @@ class Service:
         :param int max_workers: The number of worker threads serving the service, 10 by default
         :returns: none
         """
+        global DEBUG
+        if debug:
+            DEBUG = True
         server = grpc.server(ThreadPoolExecutor(max_workers=max_workers))
         servicer = ServiceServicer(self.process)
         cxmate_pb2_grpc.add_cxMateServiceServicer_to_server(servicer, server)
