@@ -5,6 +5,7 @@ import networkx
 from cxmate_service import Stream, NetworkElementBuilder
 
 class TestFromNetworkX(unittest.TestCase):
+
     def test_from_networkx(self):
         num_nodes = 100
         num_edges = 50
@@ -77,6 +78,7 @@ class TestFromNetworkX(unittest.TestCase):
         for ID, attrs in net.nodes(data=True):
             self.assertEqual(attrs['name'], net_res.node[ID]['name'])
         self.assertEqual(net.graph, net_res.graph)
+
     def testUnusualAttributeType(self):
         num_nodes = 100
         num_edges = 50
@@ -91,6 +93,7 @@ class TestFromNetworkX(unittest.TestCase):
             self.assertEqual(attrs['name'], net_res.node[ID]['name'])
         # autoconvert to string for unrecognized value types
         self.assertEqual(str(net.graph['keyDict']), net_res.graph['keyDict'])
+
     def testLargeNetwork(self):
         num_nodes = 100000
         num_edges = 50000

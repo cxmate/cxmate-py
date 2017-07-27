@@ -1,6 +1,7 @@
 import sys
 import time
 import logging
+import itertools
 from  concurrent.futures import ThreadPoolExecutor
 
 import networkx
@@ -10,12 +11,12 @@ import cxmate_pb2
 import cxmate_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
-DEBUG = False
 
 class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
     """
     CyServiceServicer is an implementation of a grpc service definiton to process CX streams
     """
+
     def __init__(self, process):
         """
         Construct a new 'CyServiceServicer' grpc service object
@@ -33,29 +34,22 @@ class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
         :param context: A grpc context object with request metadata
         :returns: Must generate CX protobuf objects
         """
-        #try:
-        output_stream = self.process(input_stream)
+        params, input_stream = self.process_parameters(input_stream)
+        output_stream = self.process(params, input_stream)
         for element in output_stream:
             yield element
 
-        #except Exception as e:
-        """
-            message = 'Unexpected error in the heat diffusion service: '  + str(e)
-            error = self.create_internal_crash_error(message, 500)
-            print error
-            yield error
-            """
+    def process_parameters(self, input_stream):
+        params = {}
+        for ele in ele_iter:
+            if ele_type == 'parameter':
+                param = ele.parameter
+                params[param.name] = param.value
+            else:
+                return params, itertools.chain([ele], input_stream)
 
-    def create_internal_crash_error(self, message, status):
-        element = cxmate_pb2.NetworkElement()
-        error = element.error
-        error.status = status
-        error.code = 'cy://heat-diffusion/' + str(status)
-        error.message = message
-        error.link = 'http://logs.cytoscape.io/heat-diffusion'
-        return element
 
-class Stream:
+class Adapter:
     """
     Static methods to convert popular network formats to and from CX stream iterators
     """
@@ -63,27 +57,28 @@ class Stream:
     @staticmethod
     def to_networkx(ele_iter):
         """
-        Creates a networkx object from a stream iterator
+        Creates a list of networkx objects by read network elements from ele_iter
 
-        :param ele_iter: A stream iterator iterating CX elements
-        :returns: A networkx object
+        :param ele_iter: A CX element generator
+        :returns: A list of networkx objects
         """
-        if DEBUG:
-            print("DEBUG: Converting to NetworkX")
-            start = time.now()
-        parameters = {}
+        networks = []
+        while ele_iter:
+            network, ele_iter = Adapter.read_networkx(ele_iter)
+            networks.append(network)
+        return networks
+
+    @staticmethod
+    def read_networkx(ele_iter):
+        network = networkx.Graph()
         attrs = []
         edges = {}
-        network = networkx.Graph()
         for ele in ele_iter:
-            if DEBUG:
-                print('DEBUG: Processing element')
-                print(ele)
-            ele_type = ele.WhichOneof('element')
-            if ele_type == 'parameter':
-                param = ele.parameter
-                parameters[param.name] = param.value
-            elif ele_type == 'node':
+            if not network.graph['label']:
+                network.graph['label'] = ele.label
+            if ele.label != network.graph['label']:
+                return network, itertools.chain([ele], ele_iter)
+            if ele_type == 'node':
                 node = ele.node
                 network.add_node(int(node.id), name=node.name)
             elif ele_type == 'edge':
@@ -93,54 +88,17 @@ class Stream:
                 network.add_edge(src, tgt, id=int(edge.id), interaction=edge.interaction)
             elif ele_type == 'nodeAttribute':
                 attr = ele.nodeAttribute
-                network.add_node(attr.nodeId, **{attr.name: Stream.parse_value(attr)})
+                network.add_node(attr.nodeId, **{attr.name: Adapter.parse_value(attr)})
             elif ele_type == 'edgeAttribute':
                 attr = ele.edgeAttribute
                 attrs.append(attr)
             elif ele_type == 'networkAttribute':
                 attr = ele.networkAttribute
-                network.graph[attr.name] = Stream.parse_value(attr)
-
-        for attr in attrs:
-            source, target = edges[int(attr.edgeId)]
-            network[source][target][attr.name] = Stream.parse_value(attr)
-        if DEBUG:
-            took = time.now() - start
-            print("DEBUG: Conversion completed. Took %s" % took)
-        return network, parameters
-
-    @staticmethod
-    def from_networkx(networkx):
-        """
-        Creates a stream iterator from a networkx object
-
-        :param networkx: A networkx object
-        :returns: A stream iterator iterating CX elements
-        """
-        if DEBUG:
-            print("DEBUG: Converting to stream iterator")
-            start = time.now()
-
-        for nodeId, attrs in networkx.nodes(data=True):
-            yield NetworkElementBuilder.Node(nodeId, attrs.get('name', ''))
-
-            for k, v in attrs.items():
-                if k not in ('name'):
-                    yield NetworkElementBuilder.NodeAttribute(nodeId, k, v)
-
-        for sourceId, targetId, attrs in networkx.edges(data=True):
-            yield NetworkElementBuilder.Edge(attrs['id'], sourceId, targetId, attrs.get('interaction', ''))
-
-            for k, v in attrs.items():
-                if k not in ('interaction', 'id'):
-                    yield NetworkElementBuilder.EdgeAttribute(attrs['id'], k, v)
-
-        for key, value in networkx.graph.items():
-            yield NetworkElementBuilder.NetworkAttribute(key, value)
-
-        if DEBUG:
-            took = time.now() - start
-            print("DEBUG: Conversion completed. Took %s" % took)
+                network.graph[attr.name] = Adapter.parse_value(attr)
+            for attr in attrs:
+                source, target = edges[int(attr.edgeId)]
+                network[source][target][attr.name] = Adapter.parse_value(attr)
+        return network, None
 
     @staticmethod
     def parse_value(attr):
@@ -154,12 +112,93 @@ class Stream:
                 value = int(value)
         return value
 
+    @staticmethod
+    def from_networkx(networks):
+        """
+        Creates a CX element generator from a list of networkx objects
+
+        :param networks: A list of networkx objects
+        :returns: A CX element generator
+        """
+        for networkx in networks:
+            builder = NetworkElementBuilder(networkx.graph.label)
+
+            for nodeId, attrs in networkx.nodes(data=True):
+                yield builder.Node(nodeId, attrs.get('name', ''))
+
+                for k, v in attrs.items():
+                    if k not in ('name'):
+                        yield builder.NodeAttribute(nodeId, k, v)
+
+            for sourceId, targetId, attrs in networkx.edges(data=True):
+                yield builder.Edge(attrs['id'], sourceId, targetId, attrs.get('interaction', ''))
+
+                for k, v in attrs.items():
+                    if k not in ('interaction', 'id'):
+                        yield builder.EdgeAttribute(attrs['id'], k, v)
+
+            for key, value in networkx.graph.items():
+                yield builder.NetworkAttribute(key, value)
+
 class NetworkElementBuilder():
     """
     Factory class for declaring the network element from networkx attributes
     """
-    @staticmethod
-    def from_value(value):
+
+    def __init__(self, label):
+        self.label = label
+
+    def Node(self, nodeId, name):
+        ele = self.new_element()
+        node = ele.node
+        node.id = nodeId
+        node.name = name
+        return ele
+
+    def Edge(self, edgeId, sourceId, targetId, interaction):
+        ele = self.new_element()
+        edge = ele.edge
+        edge.id = edgeId
+        edge.sourceId = sourceId
+        edge.targetId = targetId
+        edge.interaction = interaction
+        return ele
+
+    def NodeAttribute(self, nodeId, key, value):
+        ele = self.new_element()
+        nodeAttr = ele.nodeAttribute
+        nodeAttr.nodeId = nodeId
+        typ, value = self.from_value(value)
+        nodeAttr.type = typ
+        nodeAttr.name = key
+        nodeAttr.value = value
+        return ele
+
+    def EdgeAttribute(edgeId, key, value):
+        ele = self.new_element()
+        edgeAttr = ele.edgeAttribute
+        edgeAttr.edgeId = edgeId
+        typ, value = self.from_value(value)
+        edgeAttr.type = typ
+        edgeAttr.name = key
+        edgeAttr.value = value
+        return ele
+
+    def NetworkAttribute(key, value):
+        ele = self.new_element()
+        networkAttr = ele.networkAttribute
+        networkAttr.name = key
+        typ, value = self.from_value(value)
+        networkAttr.type = typ
+        networkAttr.value = value
+        return ele
+
+    def new_element(self):
+        ele = cxmate_pb2.NetworkElement()
+        ele.label = self.label
+        return ele
+
+    def from_value(self, value):
         if isinstance(value, bool):
             return 'boolean', str(value)
         elif isinstance(value, float):
@@ -168,55 +207,6 @@ class NetworkElementBuilder():
             return 'integer', str(value)
         return 'string', str(value)
 
-    @staticmethod
-    def Node(nodeId, name):
-        ele = cxmate_pb2.NetworkElement()
-        node = ele.node
-        node.id = nodeId
-        node.name = name
-        return ele
-
-    @staticmethod
-    def Edge(edgeId, sourceId, targetId, interaction):
-        ele = cxmate_pb2.NetworkElement()
-        edge = ele.edge
-        edge.id = edgeId
-        edge.sourceId = sourceId
-        edge.targetId = targetId
-        edge.interaction = interaction
-        return ele
-
-    @staticmethod
-    def NodeAttribute(nodeId, key, value):
-        ele = cxmate_pb2.NetworkElement()
-        nodeAttr = ele.nodeAttribute
-        nodeAttr.nodeId = nodeId
-        typ, value = NetworkElementBuilder.from_value(value)
-        nodeAttr.type = typ
-        nodeAttr.name = key
-        nodeAttr.value = value
-        return ele
-
-    @staticmethod
-    def EdgeAttribute(edgeId, key, value):
-        ele = cxmate_pb2.NetworkElement()
-        edgeAttr = ele.edgeAttribute
-        edgeAttr.edgeId = edgeId
-        typ, value = NetworkElementBuilder.from_value(value)
-        edgeAttr.type = typ
-        edgeAttr.name = key
-        edgeAttr.value = value
-        return ele
-
-    @staticmethod
-    def NetworkAttribute(key, value):
-        ele = cxmate_pb2.NetworkElement()
-        networkAttr = ele.networkAttribute
-        networkAttr.name = key
-        typ, value = NetworkElementBuilder.from_value(value)
-        networkAttr.type = typ
-        networkAttr.value = value
-        return ele
 
 class Service:
     """
@@ -240,9 +230,6 @@ class Service:
         :param int max_workers: The number of worker threads serving the service, 10 by default
         :returns: none
         """
-        global DEBUG
-        if debug:
-            DEBUG = True
         server = grpc.server(ThreadPoolExecutor(max_workers=max_workers))
         servicer = ServiceServicer(self.process)
         cxmate_pb2_grpc.add_cxMateServiceServicer_to_server(servicer, server)
