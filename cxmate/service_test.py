@@ -2,19 +2,38 @@ import unittest
 import random
 
 import networkx
-from cxmate_service import Stream, NetworkElementBuilder
+from service import Adapter, NetworkElementBuilder
 
-class TestFromNetworkX(unittest.TestCase):
+class TestNetworkxAdapter(unittest.TestCase):
+
+    def testFromValue(self):
+        builder = NetworkElementBuilder('test')
+        typ, value = builder.from_value(1)
+        self.assertEqual(typ, 'integer')
+        self.assertEqual(value, '1')
+
+        typ, value = builder.from_value(False)
+        self.assertEqual(typ, 'boolean')
+        self.assertEqual(value, 'False')
+
+        typ, value = builder.from_value(1.5)
+        self.assertEqual(typ, 'float')
+        self.assertEqual(value, '1.5')
+
+        typ, value = builder.from_value('H')
+        self.assertEqual(typ, 'string')
+        self.assertEqual(value, 'H')
+
+        typ, value = builder.from_value({1: 2})
+        self.assertEqual(typ, 'string')
+        self.assertEqual(value, '{1: 2}')
 
     def test_from_networkx(self):
-        num_nodes = 100
-        num_edges = 50
-        net = create_random_networkx_mock(num_nodes, num_edges)
+        net, edgeList = create_mock_networkx(num_nodes=100, num_edges=50)
         net.graph['desc'] = 'example'
         nodeCount = 0
         edgeCount = 0
-
-        for aspect in Stream.from_networkx(net):
+        for aspect in Adapter.from_networkx([net]):
             which = aspect.WhichOneof('element')
             if which == 'node':
                 nodeCount += 1
@@ -29,7 +48,7 @@ class TestFromNetworkX(unittest.TestCase):
                 self.assertEqual(net[attr.nodeId][attr.name], attr.value)
             elif which == 'edgeAttribute':
                 attr = aspect.edgeAttribute
-                a, b = edges[attr.edgeId]
+                a, b = edgeList[attr.edgeId]
                 self.assertEqual(str(net[a][b]['value']), attr.value)
             elif which == 'networkAttribute':
                 attr = aspect.networkAttribute
@@ -39,77 +58,54 @@ class TestFromNetworkX(unittest.TestCase):
         self.assertEqual(nodeCount, len(net))
         self.assertEqual(edgeCount, net.size())
 
-    def testFromValue(self):
-        typ, value = NetworkElementBuilder.from_value(1)
-        self.assertEqual(typ, 'integer')
-        self.assertEqual(value, '1')
-
-        typ, value = NetworkElementBuilder.from_value(False)
-        self.assertEqual(typ, 'boolean')
-        self.assertEqual(value, 'False')
-
-        typ, value = NetworkElementBuilder.from_value(1.5)
-        self.assertEqual(typ, 'float')
-        self.assertEqual(value, '1.5')
-
-        typ, value = NetworkElementBuilder.from_value('H')
-        self.assertEqual(typ, 'string')
-        self.assertEqual(value, 'H')
-
-        typ, value = NetworkElementBuilder.from_value({1: 2})
-        self.assertEqual(typ, 'string')
-        self.assertEqual(value, '{1: 2}')
-
     def testToNetworkX(self):
-        num_nodes = 100
-        num_edges = 50
-        net = create_random_networkx_mock(num_nodes, num_edges)
-        net.graph['keyStr'] = 'value'
-        net.graph['keyInt'] = 1
-        net.graph['keyFloat'] = 1.2
-        net.graph['keyBool'] = True
-        stream = Stream.from_networkx(net)
-        net_res, params = Stream.to_networkx(stream)
-        for a, b in net.edges():
-            val = net_res.edge[a][b]['value']
-            if val == '{1: 2}':
-                val = {1: 2}
-            self.assertEqual(val, net.edge[a][b]['value'])
-        for ID, attrs in net.nodes(data=True):
-            self.assertEqual(attrs['name'], net_res.node[ID]['name'])
-        self.assertEqual(net.graph, net_res.graph)
+        net, edgeList = create_mock_networkx(num_nodes=100, num_edges=50,
+                data={'keyStr': 'value',
+                'keyInt': 1,
+                'keyFloat': 1.2,
+                'keyBool': True})
+
+        stream = Adapter.from_networkx([net])
+        net_res_list = Adapter.to_networkx(stream)
+        compare_networkx(net, net_res_list[0])
+        self.assertEqual(net.graph, net_res_list[0].graph)
 
     def testUnusualAttributeType(self):
-        num_nodes = 100
-        num_edges = 50
-        net = create_random_networkx_mock(num_nodes, num_edges)
-        net.graph['keyDict'] = {1: 2}
-        stream = Stream.from_networkx(net)
-        net_res, params = Stream.to_networkx(stream)
-        for a, b in net.edges():
-            val = net_res.edge[a][b]['value']
-            self.assertEqual(val, net.edge[a][b]['value'])
-        for ID, attrs in net.nodes(data=True):
-            self.assertEqual(attrs['name'], net_res.node[ID]['name'])
+        net, edgeList = create_mock_networkx(num_nodes=100, num_edges=50, data={'keyDict': {1: 2}})
+        stream = Adapter.from_networkx([net])
+        net_res_list = Adapter.to_networkx(stream)
+        compare_networkx(net, net_res_list[0])
         # autoconvert to string for unrecognized value types
-        self.assertEqual(str(net.graph['keyDict']), net_res.graph['keyDict'])
+        self.assertEqual(str(net.graph['keyDict']), net_res_list[0].graph['keyDict'])
 
     def testLargeNetwork(self):
-        num_nodes = 100000
-        num_edges = 50000
-        net = create_random_networkx_mock(num_nodes, num_edges)
-        stream = Stream.from_networkx(net)
-        net_res, params = Stream.to_networkx(stream)
-        for a, b in net.edges():
-            val = net_res.edge[a][b]['value']
-            self.assertEqual(val, net.edge[a][b]['value'])
-        for ID, attrs in net.nodes(data=True):
-            self.assertEqual(attrs['name'], net_res.node[ID]['name'])
+        #net, edgeList = create_mock_networkx(num_nodes=100000, num_edges=50000)
+        net, edgeList = create_mock_networkx(num_nodes=1000, num_edges=500)
+        stream = Adapter.from_networkx([net])
+        net_res_list = Adapter.to_networkx(stream)
+        compare_networkx(net, net_res_list[0])
 
+    def testMultipleNetworks(self):
+        nets = [create_mock_networkx('net1')[0], create_mock_networkx('net2')[0]]
+        streams = Adapter.from_networkx(nets)
+        res_nets = Adapter.to_networkx(streams)
+        compare_networkx(nets[0], res_nets[0])
+        compare_networkx(nets[1], res_nets[1])
 
-edges = {}
-def create_random_networkx_mock(num_nodes=100, num_edges=100):
+def compare_networkx(net1, net2):
+    for a, b in net1.edges():
+        val = net2.edge[a][b]['value']
+        assert val == net1.edge[a][b]['value'], "Edge attribute incorrect. %s != %s" % (val, net1.edge[a][b]['value'])
+    for ID, attrs in net1.nodes(data=True):
+        assert attrs['name'] == net2.node[ID]['name'], "Node name incorrect. %s != %s" % (attr['name'], net2.node[ID]['name'])
+    net1_graph = {k: (v if type(v) in (float, str, int, bool) else str(v)) for k, v in net1.graph.items()}
+    assert net1_graph == net2.graph, "Network attributes do not match. %s != %s" % (net1.graph, net2.graph)
+    return True
+
+def create_mock_networkx(label='network_label', num_nodes=100, num_edges=100, data={}):
+    edgeList = {}
     n = networkx.Graph()
+    n.graph['label'] = label
     for n_id in range(num_nodes):
         n.add_node(n_id, name=hex(n_id))
     ID = num_nodes
@@ -117,10 +113,12 @@ def create_random_networkx_mock(num_nodes=100, num_edges=100):
         n1 = random.randint(0, num_nodes-1)
         n2 = random.randint(0, num_nodes-2)
         val = random.choice([1, 1.5, 'a', True])
-        edges[ID] = (n1, n2)
+        edgeList[ID] = (n1, n2)
         n.add_edge(n1, n2, id=ID, value=val)
         ID += 1
-    return n
+    for k, v in data.items():
+        n.graph[k] = v
+    return n, edgeList
 
 if __name__ == '__main__':
     unittest.main()

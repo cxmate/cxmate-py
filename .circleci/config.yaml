@@ -52,4 +52,4 @@ jobs:
       # deploy to pypi
       #- run:
           #- pip install twine
-          #- twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}"
+          #- twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" dist/*.whl

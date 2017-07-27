@@ -42,7 +42,7 @@ class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
     def process_parameters(self, input_stream):
         params = {}
         for ele in ele_iter:
-            if ele_type == 'parameter':
+            if ele.WhichOneof() == 'parameter':
                 param = ele.parameter
                 params[param.name] = param.value
             else:
@@ -74,10 +74,11 @@ class Adapter:
         attrs = []
         edges = {}
         for ele in ele_iter:
-            if not network.graph['label']:
+            if not 'label' in network.graph:
                 network.graph['label'] = ele.label
             if ele.label != network.graph['label']:
                 return network, itertools.chain([ele], ele_iter)
+            ele_type = ele.WhichOneof('element')
             if ele_type == 'node':
                 node = ele.node
                 network.add_node(int(node.id), name=node.name)
@@ -121,7 +122,7 @@ class Adapter:
         :returns: A CX element generator
         """
         for networkx in networks:
-            builder = NetworkElementBuilder(networkx.graph.label)
+            builder = NetworkElementBuilder(networkx.graph['label'])
 
             for nodeId, attrs in networkx.nodes(data=True):
                 yield builder.Node(nodeId, attrs.get('name', ''))
@@ -174,7 +175,7 @@ class NetworkElementBuilder():
         nodeAttr.value = value
         return ele
 
-    def EdgeAttribute(edgeId, key, value):
+    def EdgeAttribute(self, edgeId, key, value):
         ele = self.new_element()
         edgeAttr = ele.edgeAttribute
         edgeAttr.edgeId = edgeId
@@ -184,7 +185,7 @@ class NetworkElementBuilder():
         edgeAttr.value = value
         return ele
 
-    def NetworkAttribute(key, value):
+    def NetworkAttribute(self, key, value):
         ele = self.new_element()
         networkAttr = ele.networkAttribute
         networkAttr.name = key
