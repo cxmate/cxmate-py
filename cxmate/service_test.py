@@ -79,8 +79,7 @@ class TestNetworkxAdapter(unittest.TestCase):
         self.assertEqual(str(net.graph['keyDict']), net_res_list[0].graph['keyDict'])
 
     def testLargeNetwork(self):
-        #net, edgeList = create_mock_networkx(num_nodes=100000, num_edges=50000)
-        net, edgeList = create_mock_networkx(num_nodes=1000, num_edges=500)
+        net, edgeList = create_mock_networkx(num_nodes=10000, num_edges=5000)
         stream = Adapter.from_networkx([net])
         net_res_list = Adapter.to_networkx(stream)
         compare_networkx(net, net_res_list[0])
