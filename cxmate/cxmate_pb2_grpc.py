@@ -5,12 +5,9 @@ import cxmate_pb2 as cxmate__pb2
 
 
 class cxMateServiceStub(object):
-  """import "google/protobuf/any.proto";
+  """********** SERVICE DEFINITION **********
 
-  ********** SERVICE DEFINITION **********//
-  A cxMate service must implement some or all of the method
-  signatures in the service block.
-
+  cxMateService defines a cxMate compatible service implementation
   """
 
   def __init__(self, channel):
@@ -27,17 +24,13 @@ class cxMateServiceStub(object):
 
 
 class cxMateServiceServicer(object):
-  """import "google/protobuf/any.proto";
+  """********** SERVICE DEFINITION **********
 
-  ********** SERVICE DEFINITION **********//
-  A cxMate service must implement some or all of the method
-  signatures in the service block.
-
+  cxMateService defines a cxMate compatible service implementation
   """
 
   def StreamNetworks(self, request_iterator, context):
-    """StreamElements allows cxMate to stream one or more networks to a service
-    which can then stream one or more networks back.
+    """StreamNetworks transfers one or more networks to and from the service.
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
