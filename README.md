@@ -1,6 +1,16 @@
 cxmate-py
 =========
 
+<img align="right" height="300" src="http://www.cytoscape.org/images/logo/cy3logoOrange.svg">
+
+---
+
+cxmate-py provides a Python SDK for interacting with [cxMate](https://github.com/ericsage/cxmate), an adapter that allows Cytoscape to talk to network services. This SDK enables quick and painless development of a cxMate service, follow the Getting Started guide to learn more about the process.
+
+---
+
+_cxMate is an official [Cytoscape](http://www.cytoscape.org) project written by the Cytoscape team._
+
 Installation
 ------------
 
@@ -53,3 +63,15 @@ if __name__ == "__main__":
   myService = MyService()
   myService.run() #run starts the service listening for requests from cxMate
 ```
+
+Contributors
+------------
+
+We welcome all contributions via Github pull requests. We also encourage the filing of bugs and features requests via the Github [issue tracker](https://github.com/cxmate/cxmate-py/issues/new). For general questions please [send us an email](eric.david.sage@gmail.com).
+
+License
+-------
+
+cxmate-py is MIT licensed and a product of the [Cytoscape Consortium](http://www.cytoscapeconsortium.org).
+
+Please see the [License](https://github.com/cxmate/cxmate-py/blob/master/LICENSE) file for details.
