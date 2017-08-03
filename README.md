@@ -14,7 +14,7 @@ _cxMate is an official [Cytoscape](http://www.cytoscape.org) project written by 
 Installation
 ------------
 
-Install the cxMate SDK via pip.
+cxMate-py is on PyPi as [cxmate](https://pypi.python.org/pypi/cxmate). Install the cxMate SDK via pip.
 
 ```
 pip install cxmate
