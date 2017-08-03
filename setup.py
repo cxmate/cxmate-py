@@ -2,16 +2,13 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-here = path.abspath(path.dirname(__file__))
-
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
-
 setup(
     name='cxmate',
-    version='0.1.0',
+    version='0.2.0',
     description='SDK for creating cxMate services',
-    long_description=long_description,
+    long_description="""
+    cxmate-py provides a Python SDK for interacting with [cxMate](https://github.com/ericsage/cxmate), an adapter that allows Cytoscape to talk to network services. This SDK enables quick and painless development of a cxMate service, follow the Getting Started guide to learn more about the process.
+    """,
     url='https://github.com/cxmate/cxmate-py',
     author='Eric Sage, Brett Settle',
     author_email='eric.david.sage@gmail.com',
