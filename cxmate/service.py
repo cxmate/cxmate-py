@@ -39,14 +39,24 @@ class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
         for element in output_stream:
             yield element
 
-    def process_parameters(self, input_stream):
+    def process_parameters(self, ele_iter):
         params = {}
         for ele in ele_iter:
-            if ele.WhichOneof() == 'parameter':
+            if ele.WhichOneof('element') == 'parameter':
                 param = ele.parameter
-                params[param.name] = param.value
+                val = None
+                val_type = param.WhichOneof('value')
+                if val_type == 'numberValue':
+                    val = param.numberValue
+                elif val_type == 'booleanValue':
+                    val = param.booleanValue
+                elif val_type == 'integerValue':
+                    val = param.integerValue
+                else:
+                    val = param.stringValue
+                params[param.name] = val
             else:
-                return params, itertools.chain([ele], input_stream)
+                return params, itertools.chain([ele], ele_iter)
 
 
 class Adapter:
