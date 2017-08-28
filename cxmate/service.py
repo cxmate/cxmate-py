@@ -1,14 +1,12 @@
-import sys
 import time
-import logging
 import itertools
 from  concurrent.futures import ThreadPoolExecutor
 
 import networkx
 import grpc
 
-import cxmate_pb2
-import cxmate_pb2_grpc
+from . import cxmate_pb2
+from . import cxmate_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
