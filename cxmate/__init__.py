@@ -1,1 +1,1 @@
-from service import Service, Adapter
+from .service import Service, Adapter
