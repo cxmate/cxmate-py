@@ -22,5 +22,5 @@ setup(
     ],
     keywords='cytoscape networkx network biology cxmate',
     packages=find_packages(),
-    install_requires=['grpcio', 'networkx'],
+    install_requires=['grpcio', 'networkx==1.11'],
 )
