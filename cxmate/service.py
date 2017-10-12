@@ -1,5 +1,6 @@
 import time
 import itertools
+import uuid
 from  concurrent.futures import ThreadPoolExecutor
 
 import networkx
@@ -9,6 +10,8 @@ from . import cxmate_pb2
 from . import cxmate_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
+
+logging.basicConfig(stream=sys.stdout, format='cxmate-py %(asctime)s %(message)s', level=logging.DEBUG)
 
 class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
     """
@@ -32,12 +35,17 @@ class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
         :param context: A grpc context object with request metadata
         :returns: Must generate CX protobuf objects
         """
-        params, input_stream = self.process_parameters(input_stream)
+        uuid = str(uuid.uuid4())
+        logging.info("StreamNetworks invoked for" + uuid)
+        logging.info("processing parameters for" + uuid)
+        params, input_stream = self.process_parameters(input_stream, uuid)
+        logging.info("calling service handler for" + uuid)
         output_stream = self.process(params, input_stream)
+        logging.info("iterating output stream for" + uuid)
         for element in output_stream:
             yield element
 
-    def process_parameters(self, ele_iter):
+    def process_parameters(self, ele_iter, uuid):
         params = {}
         for ele in ele_iter:
             if ele.WhichOneof('element') == 'parameter':
@@ -52,6 +60,8 @@ class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
                     val = param.integerValue
                 else:
                     val = param.stringValue
+                if param.name == 'request_id':
+                    logging.info('request ' + uuid + ' has a tracing id of ' + val)
                 params[param.name] = val
             else:
                 return params, itertools.chain([ele], ele_iter)
@@ -61,7 +71,7 @@ class Adapter:
     """
     Static methods to convert popular network formats to and from CX stream iterators
     """
-
+  
     @staticmethod
     def to_networkx(ele_iter):
         """
@@ -149,6 +159,15 @@ class Adapter:
             for key, value in networkx.graph.items():
                 yield builder.NetworkAttribute(key, value)
 
+    @staticmethod
+    def to_JSON(ele_iter):
+        pass
+
+    @staticmethod
+    def from_JSON(label, json):
+        yield NetworkElementBuilder(label).Json(json)
+
+
 class NetworkElementBuilder():
     """
     Factory class for declaring the network element from networkx attributes
@@ -156,6 +175,11 @@ class NetworkElementBuilder():
 
     def __init__(self, label):
         self.label = label
+
+    def Json(self, json):
+        ele = self.new_element()
+        ele.json = json
+        return ele
 
     def Node(self, nodeId, name):
         ele = self.new_element()
@@ -231,7 +255,7 @@ class Service:
         """
         raise NotImplementedError
 
-    def run(self, listen_on = '0.0.0.0:8080', max_workers=10, debug=False):
+    def run(self, listen_on = '0.0.0.0:8080', max_workers=10):
         """
         Run starts the service and then waits for a keyboard interupt
 
@@ -243,10 +267,12 @@ class Service:
         servicer = ServiceServicer(self.process)
         cxmate_pb2_grpc.add_cxMateServiceServicer_to_server(servicer, server)
         server.add_insecure_port(listen_on)
+        logging.info("starting service on " + listen_on)
         server.start()
         try:
             while True:
                 time.sleep(_ONE_DAY_IN_SECONDS)
         except KeyboardInterrupt:
+            logging.error("service stopped")
             server.stop(0)
 

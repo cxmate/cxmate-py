@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='cxmate.proto',
   package='proto',
   syntax='proto3',
-  serialized_pb=_b('\n\x0c\x63xmate.proto\x12\x05proto\"\xc8\x08\n\x0eNetworkElement\x12\r\n\x05label\x18\x01 \x01(\t\x12%\n\tparameter\x18\x02 \x01(\x0b\x32\x10.proto.ParameterH\x00\x12\x1d\n\x05\x65rror\x18\x03 \x01(\x0b\x32\x0c.proto.ErrorH\x00\x12\x1b\n\x04node\x18\x04 \x01(\x0b\x32\x0b.proto.NodeH\x00\x12\x1b\n\x04\x65\x64ge\x18\x05 \x01(\x0b\x32\x0b.proto.EdgeH\x00\x12-\n\rnodeAttribute\x18\x06 \x01(\x0b\x32\x14.proto.NodeAttributeH\x00\x12-\n\redgeAttribute\x18\x07 \x01(\x0b\x32\x14.proto.EdgeAttributeH\x00\x12\x33\n\x10networkAttribute\x18\x08 \x01(\x0b\x32\x17.proto.NetworkAttributeH\x00\x12\x39\n\x13\x43\x61rtesianCoordinate\x18\t \x01(\x0b\x32\x1a.proto.CartesianCoordinateH\x00\x12!\n\x07\x63yGroup\x18\n \x01(\x0b\x32\x0e.proto.CyGroupH\x00\x12\x1f\n\x06\x63yView\x18\x0b \x01(\x0b\x32\r.proto.CyViewH\x00\x12\x33\n\x10\x63yVisualProperty\x18\x0c \x01(\x0b\x32\x17.proto.CyVisualPropertyH\x00\x12\x35\n\x11\x63yHiddenAttribute\x18\r \x01(\x0b\x32\x18.proto.CyHiddenAttributeH\x00\x12\x35\n\x11\x63yNetworkRelation\x18\x0e \x01(\x0b\x32\x18.proto.CyNetworkRelationH\x00\x12+\n\x0c\x63ySubNetwork\x18\x0f \x01(\x0b\x32\x13.proto.CySubNetworkH\x00\x12-\n\rcyTableColumn\x18\x10 \x01(\x0b\x32\x14.proto.CyTableColumnH\x00\x12\'\n\nndexStatus\x18\x11 \x01(\x0b\x32\x11.proto.NdexStatusH\x00\x12#\n\x08\x63itation\x18\x12 \x01(\x0b\x32\x0f.proto.CitationH\x00\x12-\n\rnodeCitations\x18\x13 \x01(\x0b\x32\x14.proto.NodeCitationsH\x00\x12-\n\redgeCitations\x18\x14 \x01(\x0b\x32\x14.proto.EdgeCitationsH\x00\x12!\n\x07support\x18\x15 \x01(\x0b\x32\x0e.proto.SupportH\x00\x12\x31\n\x0fnodeSupportance\x18\x16 \x01(\x0b\x32\x16.proto.NodeSupportanceH\x00\x12\x31\n\x0f\x65\x64geSupportance\x18\x17 \x01(\x0b\x32\x16.proto.EdgeSupportanceH\x00\x12+\n\x0c\x66unctionTerm\x18\x18 \x01(\x0b\x32\x13.proto.FunctionTermH\x00\x12)\n\x0breifiedEdge\x18\x19 \x01(\x0b\x32\x12.proto.ReifiedEdgeH\x00\x42\t\n\x07\x65lement\"\x90\x01\n\tParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06\x66ormat\x18\x02 \x01(\t\x12\x15\n\x0bstringValue\x18\x03 \x01(\tH\x00\x12\x16\n\x0c\x62ooleanValue\x18\x04 \x01(\x08H\x00\x12\x16\n\x0cintegerValue\x18\x05 \x01(\x03H\x00\x12\x15\n\x0bnumberValue\x18\x06 \x01(\x01H\x00\x42\x07\n\x05value\"D\n\x05\x45rror\x12\x0e\n\x06status\x18\x01 \x01(\x03\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\x12\x0c\n\x04link\x18\x04 \x01(\t\"?\n\x04Node\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x0f\n\x04name\x18\x02 \x01(\tR\x01n\x12\x15\n\nrepresents\x18\x03 \x01(\tR\x01r\"Y\n\x04\x45\x64ge\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x13\n\x08sourceId\x18\x02 \x01(\x03R\x01s\x12\x13\n\x08targetId\x18\x03 \x01(\x03R\x01t\x12\x16\n\x0binteraction\x18\x04 \x01(\tR\x01i\"l\n\rNodeAttribute\x12\x12\n\x06nodeId\x18\x01 \x01(\x03R\x02po\x12\x0f\n\x04name\x18\x02 \x01(\tR\x01n\x12\x10\n\x05value\x18\x03 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x04 \x01(\tR\x01\x64\x12\x13\n\x08subnetId\x18\x05 \x01(\x03R\x01s\"l\n\rEdgeAttribute\x12\x12\n\x06\x65\x64geId\x18\x01 \x01(\x03R\x02po\x12\x0f\n\x04name\x18\x02 \x01(\tR\x01n\x12\x10\n\x05value\x18\x03 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x04 \x01(\tR\x01\x64\x12\x13\n\x08subnetId\x18\x05 \x01(\x03R\x01s\"[\n\x10NetworkAttribute\x12\x0f\n\x04name\x18\x01 \x01(\tR\x01n\x12\x10\n\x05value\x18\x02 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x03 \x01(\tR\x01\x64\x12\x13\n\x08subnetId\x18\x04 \x01(\x03R\x01s\"k\n\x13\x43\x61rtesianCoordinate\x12\x14\n\x06nodeId\x18\x01 \x01(\x03R\x04node\x12\x0c\n\x01x\x18\x02 \x01(\x01R\x01x\x12\x0c\n\x01y\x18\x03 \x01(\x01R\x01y\x12\x0c\n\x01z\x18\x04 \x01(\x01R\x01z\x12\x14\n\x06viewId\x18\x05 \x01(\x03R\x04view\"\xa5\x01\n\x07\x43yGroup\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x12\n\x04view\x18\x02 \x01(\x03R\x04view\x12\x12\n\x04name\x18\x03 \x01(\tR\x04name\x12\x14\n\x05nodes\x18\x04 \x03(\x03R\x05nodes\x12$\n\rexternalEdges\x18\x05 \x03(\x03R\rexternal_edge\x12%\n\rinternalEdges\x18\x06 \x03(\x03R\x0einternal_edges\".\n\x06\x43yView\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x13\n\x08subnetId\x18\x02 \x01(\x03R\x01s\"\xd5\x03\n\x10\x43yVisualProperty\x12\x1c\n\x05owner\x18\x01 \x01(\tR\rproperties_of\x12\x1b\n\x07ownerId\x18\x02 \x01(\x03R\napplies_to\x12\x12\n\x04view\x18\x04 \x01(\x03R\x04view\x12G\n\nproperties\x18\x05 \x03(\x0b\x32\'.proto.CyVisualProperty.PropertiesEntryR\nproperties\x12M\n\x0c\x64\x65pendencies\x18\x06 \x03(\x0b\x32).proto.CyVisualProperty.DependenciesEntryR\x0c\x64\x65pendencies\x12\x41\n\x08mappings\x18\x07 \x03(\x0b\x32%.proto.CyVisualProperty.MappingsEntryR\x08mappings\x1a\x31\n\x0fPropertiesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a\x33\n\x11\x44\x65pendenciesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a/\n\rMappingsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x0c:\x02\x38\x01\"\\\n\x11\x43yHiddenAttribute\x12\x0f\n\x04name\x18\x01 \x01(\tR\x01n\x12\x10\n\x05value\x18\x02 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x03 \x01(\tR\x01\x64\x12\x13\n\x08subnetId\x18\x04 \x01(\x03R\x01s\"i\n\x11\x43yNetworkRelation\x12\x13\n\x08parentId\x18\x01 \x01(\x03R\x01p\x12\x12\n\x07\x63hildId\x18\x02 \x01(\x03R\x01\x63\x12\x17\n\x0crelationship\x18\x03 \x01(\tR\x01r\x12\x12\n\x04name\x18\x04 \x01(\tR\x04name\"K\n\x0c\x43ySubNetwork\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x14\n\x05\x65\x64ges\x18\x02 \x03(\x03R\x05\x65\x64ges\x12\x14\n\x05nodes\x18\x03 \x03(\x03R\x05nodes\"k\n\rCyTableColumn\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n\x04type\x18\x02 \x01(\tR\x04type\x12\x14\n\x05owner\x18\x03 \x01(\tR\x05owner\x12\x1c\n\x08subnetId\x18\x04 \x01(\x03R\napplies_to\"\xf7\x01\n\nNdexStatus\x12\x16\n\x02id\x18\x01 \x01(\tR\nexternalId\x12\x1f\n\x08location\x18\x02 \x01(\tR\rndexServerURI\x12\x14\n\x05owner\x18\x03 \x01(\tR\x05owner\x12\"\n\x0c\x63reationTime\x18\x04 \x01(\tR\x0c\x63reationTime\x12\x1a\n\x08readOnly\x18\x05 \x01(\x08R\x08readOnly\x12\x1e\n\nvisibility\x18\x06 \x01(\tR\nvisibility\x12\x1c\n\tedgeCount\x18\x07 \x01(\x03R\tedgeCount\x12\x1c\n\tnodeCount\x18\x08 \x01(\x03R\tnodeCount\"\xf2\x01\n\x08\x43itation\x12\x0f\n\x02id\x18\x01 \x01(\tR\x03@id\x12\x17\n\x05title\x18\x02 \x01(\tR\x08\x64\x63:title\x12#\n\x0b\x64\x65scription\x18\x03 \x01(\tR\x0e\x64\x63:description\x12#\n\x0b\x63ontributor\x18\x04 \x01(\tR\x0e\x64\x63:contributor\x12!\n\nidentifier\x18\x05 \x01(\tR\rdc:identifier\x12\x15\n\x04type\x18\x06 \x01(\tR\x07\x64\x63:type\x12\x38\n\nattributes\x18\x07 \x03(\x0b\x32\x18.proto.CitationAttributeR\nattributes\"G\n\x11\x43itationAttribute\x12\x0f\n\x04name\x18\x01 \x01(\tR\x01n\x12\x10\n\x05value\x18\x02 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x03 \x01(\tR\x01t\"@\n\rNodeCitations\x12\x18\n\x05nodes\x18\x01 \x03(\x03R\tcitations\x12\x15\n\tcitations\x18\x02 \x03(\x03R\x02po\"@\n\rEdgeCitations\x12\x18\n\x05\x65\x64ges\x18\x01 \x03(\x03R\tcitations\x12\x15\n\tcitations\x18\x02 \x03(\x03R\x02po\"\x85\x01\n\x07Support\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x1c\n\ncitationId\x18\x02 \x01(\x03R\x08\x63itation\x12\x12\n\x04text\x18\x03 \x01(\tR\x04text\x12\x37\n\nattributes\x18\x04 \x03(\x0b\x32\x17.proto.SupportAttributeR\nattributes\"F\n\x10SupportAttribute\x12\x0f\n\x04name\x18\x01 \x01(\tR\x01n\x12\x10\n\x05value\x18\x02 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x03 \x01(\tR\x01t\"@\n\x0fNodeSupportance\x12\x14\n\x05nodes\x18\x01 \x03(\x03R\x05nodes\x12\x17\n\x0bsupportance\x18\x02 \x03(\x03R\x02po\"@\n\x0f\x45\x64geSupportance\x12\x14\n\x05\x65\x64ges\x18\x01 \x03(\x03R\x05\x65\x64ges\x12\x17\n\x0bsupportance\x18\x02 \x03(\x03R\x02po\"P\n\x0c\x46unctionTerm\x12\x12\n\x06nodeId\x18\x01 \x01(\x03R\x02po\x12\x13\n\x08\x66unction\x18\x02 \x01(\tR\x01\x66\x12\x17\n\targuments\x18\x03 \x03(\tR\x04\x61rgs\"9\n\x0bReifiedEdge\x12\x14\n\x06\x65\x64geId\x18\x01 \x01(\x03R\x04\x65\x64ge\x12\x14\n\x06nodeId\x18\x02 \x01(\x03R\x04node2U\n\rcxMateService\x12\x44\n\x0eStreamNetworks\x12\x15.proto.NetworkElement\x1a\x15.proto.NetworkElement\"\x00(\x01\x30\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0c\x63xmate.proto\x12\x05proto\"\xb9\x08\n\x0eNetworkElement\x12\r\n\x05label\x18\x01 \x01(\t\x12%\n\tparameter\x18\x02 \x01(\x0b\x32\x10.proto.ParameterH\x00\x12\x0e\n\x04json\x18\x03 \x01(\tH\x00\x12\x1b\n\x04node\x18\x04 \x01(\x0b\x32\x0b.proto.NodeH\x00\x12\x1b\n\x04\x65\x64ge\x18\x05 \x01(\x0b\x32\x0b.proto.EdgeH\x00\x12-\n\rnodeAttribute\x18\x06 \x01(\x0b\x32\x14.proto.NodeAttributeH\x00\x12-\n\redgeAttribute\x18\x07 \x01(\x0b\x32\x14.proto.EdgeAttributeH\x00\x12\x33\n\x10networkAttribute\x18\x08 \x01(\x0b\x32\x17.proto.NetworkAttributeH\x00\x12\x39\n\x13\x43\x61rtesianCoordinate\x18\t \x01(\x0b\x32\x1a.proto.CartesianCoordinateH\x00\x12!\n\x07\x63yGroup\x18\n \x01(\x0b\x32\x0e.proto.CyGroupH\x00\x12\x1f\n\x06\x63yView\x18\x0b \x01(\x0b\x32\r.proto.CyViewH\x00\x12\x33\n\x10\x63yVisualProperty\x18\x0c \x01(\x0b\x32\x17.proto.CyVisualPropertyH\x00\x12\x35\n\x11\x63yHiddenAttribute\x18\r \x01(\x0b\x32\x18.proto.CyHiddenAttributeH\x00\x12\x35\n\x11\x63yNetworkRelation\x18\x0e \x01(\x0b\x32\x18.proto.CyNetworkRelationH\x00\x12+\n\x0c\x63ySubNetwork\x18\x0f \x01(\x0b\x32\x13.proto.CySubNetworkH\x00\x12-\n\rcyTableColumn\x18\x10 \x01(\x0b\x32\x14.proto.CyTableColumnH\x00\x12\'\n\nndexStatus\x18\x11 \x01(\x0b\x32\x11.proto.NdexStatusH\x00\x12#\n\x08\x63itation\x18\x12 \x01(\x0b\x32\x0f.proto.CitationH\x00\x12-\n\rnodeCitations\x18\x13 \x01(\x0b\x32\x14.proto.NodeCitationsH\x00\x12-\n\redgeCitations\x18\x14 \x01(\x0b\x32\x14.proto.EdgeCitationsH\x00\x12!\n\x07support\x18\x15 \x01(\x0b\x32\x0e.proto.SupportH\x00\x12\x31\n\x0fnodeSupportance\x18\x16 \x01(\x0b\x32\x16.proto.NodeSupportanceH\x00\x12\x31\n\x0f\x65\x64geSupportance\x18\x17 \x01(\x0b\x32\x16.proto.EdgeSupportanceH\x00\x12+\n\x0c\x66unctionTerm\x18\x18 \x01(\x0b\x32\x13.proto.FunctionTermH\x00\x12)\n\x0breifiedEdge\x18\x19 \x01(\x0b\x32\x12.proto.ReifiedEdgeH\x00\x42\t\n\x07\x65lement\"\x90\x01\n\tParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06\x66ormat\x18\x02 \x01(\t\x12\x15\n\x0bstringValue\x18\x03 \x01(\tH\x00\x12\x16\n\x0c\x62ooleanValue\x18\x04 \x01(\x08H\x00\x12\x16\n\x0cintegerValue\x18\x05 \x01(\x03H\x00\x12\x15\n\x0bnumberValue\x18\x06 \x01(\x01H\x00\x42\x07\n\x05value\"?\n\x04Node\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x0f\n\x04name\x18\x02 \x01(\tR\x01n\x12\x15\n\nrepresents\x18\x03 \x01(\tR\x01r\"Y\n\x04\x45\x64ge\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x13\n\x08sourceId\x18\x02 \x01(\x03R\x01s\x12\x13\n\x08targetId\x18\x03 \x01(\x03R\x01t\x12\x16\n\x0binteraction\x18\x04 \x01(\tR\x01i\"l\n\rNodeAttribute\x12\x12\n\x06nodeId\x18\x01 \x01(\x03R\x02po\x12\x0f\n\x04name\x18\x02 \x01(\tR\x01n\x12\x10\n\x05value\x18\x03 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x04 \x01(\tR\x01\x64\x12\x13\n\x08subnetId\x18\x05 \x01(\x03R\x01s\"l\n\rEdgeAttribute\x12\x12\n\x06\x65\x64geId\x18\x01 \x01(\x03R\x02po\x12\x0f\n\x04name\x18\x02 \x01(\tR\x01n\x12\x10\n\x05value\x18\x03 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x04 \x01(\tR\x01\x64\x12\x13\n\x08subnetId\x18\x05 \x01(\x03R\x01s\"[\n\x10NetworkAttribute\x12\x0f\n\x04name\x18\x01 \x01(\tR\x01n\x12\x10\n\x05value\x18\x02 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x03 \x01(\tR\x01\x64\x12\x13\n\x08subnetId\x18\x04 \x01(\x03R\x01s\"k\n\x13\x43\x61rtesianCoordinate\x12\x14\n\x06nodeId\x18\x01 \x01(\x03R\x04node\x12\x0c\n\x01x\x18\x02 \x01(\x01R\x01x\x12\x0c\n\x01y\x18\x03 \x01(\x01R\x01y\x12\x0c\n\x01z\x18\x04 \x01(\x01R\x01z\x12\x14\n\x06viewId\x18\x05 \x01(\x03R\x04view\"\xa5\x01\n\x07\x43yGroup\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x12\n\x04view\x18\x02 \x01(\x03R\x04view\x12\x12\n\x04name\x18\x03 \x01(\tR\x04name\x12\x14\n\x05nodes\x18\x04 \x03(\x03R\x05nodes\x12$\n\rexternalEdges\x18\x05 \x03(\x03R\rexternal_edge\x12%\n\rinternalEdges\x18\x06 \x03(\x03R\x0einternal_edges\".\n\x06\x43yView\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x13\n\x08subnetId\x18\x02 \x01(\x03R\x01s\"\xd5\x03\n\x10\x43yVisualProperty\x12\x1c\n\x05owner\x18\x01 \x01(\tR\rproperties_of\x12\x1b\n\x07ownerId\x18\x02 \x01(\x03R\napplies_to\x12\x12\n\x04view\x18\x04 \x01(\x03R\x04view\x12G\n\nproperties\x18\x05 \x03(\x0b\x32\'.proto.CyVisualProperty.PropertiesEntryR\nproperties\x12M\n\x0c\x64\x65pendencies\x18\x06 \x03(\x0b\x32).proto.CyVisualProperty.DependenciesEntryR\x0c\x64\x65pendencies\x12\x41\n\x08mappings\x18\x07 \x03(\x0b\x32%.proto.CyVisualProperty.MappingsEntryR\x08mappings\x1a\x31\n\x0fPropertiesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a\x33\n\x11\x44\x65pendenciesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x1a/\n\rMappingsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x0c:\x02\x38\x01\"\\\n\x11\x43yHiddenAttribute\x12\x0f\n\x04name\x18\x01 \x01(\tR\x01n\x12\x10\n\x05value\x18\x02 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x03 \x01(\tR\x01\x64\x12\x13\n\x08subnetId\x18\x04 \x01(\x03R\x01s\"i\n\x11\x43yNetworkRelation\x12\x13\n\x08parentId\x18\x01 \x01(\x03R\x01p\x12\x12\n\x07\x63hildId\x18\x02 \x01(\x03R\x01\x63\x12\x17\n\x0crelationship\x18\x03 \x01(\tR\x01r\x12\x12\n\x04name\x18\x04 \x01(\tR\x04name\"K\n\x0c\x43ySubNetwork\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x14\n\x05\x65\x64ges\x18\x02 \x03(\x03R\x05\x65\x64ges\x12\x14\n\x05nodes\x18\x03 \x03(\x03R\x05nodes\"k\n\rCyTableColumn\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n\x04type\x18\x02 \x01(\tR\x04type\x12\x14\n\x05owner\x18\x03 \x01(\tR\x05owner\x12\x1c\n\x08subnetId\x18\x04 \x01(\x03R\napplies_to\"\xf7\x01\n\nNdexStatus\x12\x16\n\x02id\x18\x01 \x01(\tR\nexternalId\x12\x1f\n\x08location\x18\x02 \x01(\tR\rndexServerURI\x12\x14\n\x05owner\x18\x03 \x01(\tR\x05owner\x12\"\n\x0c\x63reationTime\x18\x04 \x01(\tR\x0c\x63reationTime\x12\x1a\n\x08readOnly\x18\x05 \x01(\x08R\x08readOnly\x12\x1e\n\nvisibility\x18\x06 \x01(\tR\nvisibility\x12\x1c\n\tedgeCount\x18\x07 \x01(\x03R\tedgeCount\x12\x1c\n\tnodeCount\x18\x08 \x01(\x03R\tnodeCount\"\xf2\x01\n\x08\x43itation\x12\x0f\n\x02id\x18\x01 \x01(\tR\x03@id\x12\x17\n\x05title\x18\x02 \x01(\tR\x08\x64\x63:title\x12#\n\x0b\x64\x65scription\x18\x03 \x01(\tR\x0e\x64\x63:description\x12#\n\x0b\x63ontributor\x18\x04 \x01(\tR\x0e\x64\x63:contributor\x12!\n\nidentifier\x18\x05 \x01(\tR\rdc:identifier\x12\x15\n\x04type\x18\x06 \x01(\tR\x07\x64\x63:type\x12\x38\n\nattributes\x18\x07 \x03(\x0b\x32\x18.proto.CitationAttributeR\nattributes\"G\n\x11\x43itationAttribute\x12\x0f\n\x04name\x18\x01 \x01(\tR\x01n\x12\x10\n\x05value\x18\x02 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x03 \x01(\tR\x01t\"@\n\rNodeCitations\x12\x18\n\x05nodes\x18\x01 \x03(\x03R\tcitations\x12\x15\n\tcitations\x18\x02 \x03(\x03R\x02po\"@\n\rEdgeCitations\x12\x18\n\x05\x65\x64ges\x18\x01 \x03(\x03R\tcitations\x12\x15\n\tcitations\x18\x02 \x03(\x03R\x02po\"\x85\x01\n\x07Support\x12\x0f\n\x02id\x18\x01 \x01(\x03R\x03@id\x12\x1c\n\ncitationId\x18\x02 \x01(\x03R\x08\x63itation\x12\x12\n\x04text\x18\x03 \x01(\tR\x04text\x12\x37\n\nattributes\x18\x04 \x03(\x0b\x32\x17.proto.SupportAttributeR\nattributes\"F\n\x10SupportAttribute\x12\x0f\n\x04name\x18\x01 \x01(\tR\x01n\x12\x10\n\x05value\x18\x02 \x01(\tR\x01v\x12\x0f\n\x04type\x18\x03 \x01(\tR\x01t\"@\n\x0fNodeSupportance\x12\x14\n\x05nodes\x18\x01 \x03(\x03R\x05nodes\x12\x17\n\x0bsupportance\x18\x02 \x03(\x03R\x02po\"@\n\x0f\x45\x64geSupportance\x12\x14\n\x05\x65\x64ges\x18\x01 \x03(\x03R\x05\x65\x64ges\x12\x17\n\x0bsupportance\x18\x02 \x03(\x03R\x02po\"P\n\x0c\x46unctionTerm\x12\x12\n\x06nodeId\x18\x01 \x01(\x03R\x02po\x12\x13\n\x08\x66unction\x18\x02 \x01(\tR\x01\x66\x12\x17\n\targuments\x18\x03 \x03(\tR\x04\x61rgs\"9\n\x0bReifiedEdge\x12\x14\n\x06\x65\x64geId\x18\x01 \x01(\x03R\x04\x65\x64ge\x12\x14\n\x06nodeId\x18\x02 \x01(\x03R\x04node2U\n\rcxMateService\x12\x44\n\x0eStreamNetworks\x12\x15.proto.NetworkElement\x1a\x15.proto.NetworkElement\"\x00(\x01\x30\x01\x62\x06proto3')
 )
 
 
@@ -47,9 +47,9 @@ _NETWORKELEMENT = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='error', full_name='proto.NetworkElement.error', index=2,
-      number=3, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='json', full_name='proto.NetworkElement.json', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -223,7 +223,7 @@ _NETWORKELEMENT = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=24,
-  serialized_end=1120,
+  serialized_end=1105,
 )
 
 
@@ -291,60 +291,8 @@ _PARAMETER = _descriptor.Descriptor(
       name='value', full_name='proto.Parameter.value',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=1123,
-  serialized_end=1267,
-)
-
-
-_ERROR = _descriptor.Descriptor(
-  name='Error',
-  full_name='proto.Error',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='status', full_name='proto.Error.status', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='type', full_name='proto.Error.type', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='message', full_name='proto.Error.message', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='link', full_name='proto.Error.link', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1269,
-  serialized_end=1337,
+  serialized_start=1108,
+  serialized_end=1252,
 )
 
 
@@ -388,8 +336,8 @@ _NODE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1339,
-  serialized_end=1402,
+  serialized_start=1254,
+  serialized_end=1317,
 )
 
 
@@ -440,8 +388,8 @@ _EDGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1404,
-  serialized_end=1493,
+  serialized_start=1319,
+  serialized_end=1408,
 )
 
 
@@ -499,8 +447,8 @@ _NODEATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1495,
-  serialized_end=1603,
+  serialized_start=1410,
+  serialized_end=1518,
 )
 
 
@@ -558,8 +506,8 @@ _EDGEATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1605,
-  serialized_end=1713,
+  serialized_start=1520,
+  serialized_end=1628,
 )
 
 
@@ -610,8 +558,8 @@ _NETWORKATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1715,
-  serialized_end=1806,
+  serialized_start=1630,
+  serialized_end=1721,
 )
 
 
@@ -669,8 +617,8 @@ _CARTESIANCOORDINATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1808,
-  serialized_end=1915,
+  serialized_start=1723,
+  serialized_end=1830,
 )
 
 
@@ -735,8 +683,8 @@ _CYGROUP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1918,
-  serialized_end=2083,
+  serialized_start=1833,
+  serialized_end=1998,
 )
 
 
@@ -773,8 +721,8 @@ _CYVIEW = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2085,
-  serialized_end=2131,
+  serialized_start=2000,
+  serialized_end=2046,
 )
 
 
@@ -811,8 +759,8 @@ _CYVISUALPROPERTY_PROPERTIESENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2452,
-  serialized_end=2501,
+  serialized_start=2367,
+  serialized_end=2416,
 )
 
 _CYVISUALPROPERTY_DEPENDENCIESENTRY = _descriptor.Descriptor(
@@ -848,8 +796,8 @@ _CYVISUALPROPERTY_DEPENDENCIESENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2503,
-  serialized_end=2554,
+  serialized_start=2418,
+  serialized_end=2469,
 )
 
 _CYVISUALPROPERTY_MAPPINGSENTRY = _descriptor.Descriptor(
@@ -885,8 +833,8 @@ _CYVISUALPROPERTY_MAPPINGSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2556,
-  serialized_end=2603,
+  serialized_start=2471,
+  serialized_end=2518,
 )
 
 _CYVISUALPROPERTY = _descriptor.Descriptor(
@@ -950,8 +898,8 @@ _CYVISUALPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2134,
-  serialized_end=2603,
+  serialized_start=2049,
+  serialized_end=2518,
 )
 
 
@@ -1002,8 +950,8 @@ _CYHIDDENATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2605,
-  serialized_end=2697,
+  serialized_start=2520,
+  serialized_end=2612,
 )
 
 
@@ -1054,8 +1002,8 @@ _CYNETWORKRELATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2699,
-  serialized_end=2804,
+  serialized_start=2614,
+  serialized_end=2719,
 )
 
 
@@ -1099,8 +1047,8 @@ _CYSUBNETWORK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2806,
-  serialized_end=2881,
+  serialized_start=2721,
+  serialized_end=2796,
 )
 
 
@@ -1151,8 +1099,8 @@ _CYTABLECOLUMN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2883,
-  serialized_end=2990,
+  serialized_start=2798,
+  serialized_end=2905,
 )
 
 
@@ -1231,8 +1179,8 @@ _NDEXSTATUS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2993,
-  serialized_end=3240,
+  serialized_start=2908,
+  serialized_end=3155,
 )
 
 
@@ -1304,8 +1252,8 @@ _CITATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3243,
-  serialized_end=3485,
+  serialized_start=3158,
+  serialized_end=3400,
 )
 
 
@@ -1349,8 +1297,8 @@ _CITATIONATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3487,
-  serialized_end=3558,
+  serialized_start=3402,
+  serialized_end=3473,
 )
 
 
@@ -1387,8 +1335,8 @@ _NODECITATIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3560,
-  serialized_end=3624,
+  serialized_start=3475,
+  serialized_end=3539,
 )
 
 
@@ -1425,8 +1373,8 @@ _EDGECITATIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3626,
-  serialized_end=3690,
+  serialized_start=3541,
+  serialized_end=3605,
 )
 
 
@@ -1477,8 +1425,8 @@ _SUPPORT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3693,
-  serialized_end=3826,
+  serialized_start=3608,
+  serialized_end=3741,
 )
 
 
@@ -1522,8 +1470,8 @@ _SUPPORTATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3828,
-  serialized_end=3898,
+  serialized_start=3743,
+  serialized_end=3813,
 )
 
 
@@ -1560,8 +1508,8 @@ _NODESUPPORTANCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3900,
-  serialized_end=3964,
+  serialized_start=3815,
+  serialized_end=3879,
 )
 
 
@@ -1598,8 +1546,8 @@ _EDGESUPPORTANCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3966,
-  serialized_end=4030,
+  serialized_start=3881,
+  serialized_end=3945,
 )
 
 
@@ -1643,8 +1591,8 @@ _FUNCTIONTERM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4032,
-  serialized_end=4112,
+  serialized_start=3947,
+  serialized_end=4027,
 )
 
 
@@ -1681,12 +1629,11 @@ _REIFIEDEDGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4114,
-  serialized_end=4171,
+  serialized_start=4029,
+  serialized_end=4086,
 )
 
 _NETWORKELEMENT.fields_by_name['parameter'].message_type = _PARAMETER
-_NETWORKELEMENT.fields_by_name['error'].message_type = _ERROR
 _NETWORKELEMENT.fields_by_name['node'].message_type = _NODE
 _NETWORKELEMENT.fields_by_name['edge'].message_type = _EDGE
 _NETWORKELEMENT.fields_by_name['nodeAttribute'].message_type = _NODEATTRIBUTE
@@ -1713,8 +1660,8 @@ _NETWORKELEMENT.oneofs_by_name['element'].fields.append(
   _NETWORKELEMENT.fields_by_name['parameter'])
 _NETWORKELEMENT.fields_by_name['parameter'].containing_oneof = _NETWORKELEMENT.oneofs_by_name['element']
 _NETWORKELEMENT.oneofs_by_name['element'].fields.append(
-  _NETWORKELEMENT.fields_by_name['error'])
-_NETWORKELEMENT.fields_by_name['error'].containing_oneof = _NETWORKELEMENT.oneofs_by_name['element']
+  _NETWORKELEMENT.fields_by_name['json'])
+_NETWORKELEMENT.fields_by_name['json'].containing_oneof = _NETWORKELEMENT.oneofs_by_name['element']
 _NETWORKELEMENT.oneofs_by_name['element'].fields.append(
   _NETWORKELEMENT.fields_by_name['node'])
 _NETWORKELEMENT.fields_by_name['node'].containing_oneof = _NETWORKELEMENT.oneofs_by_name['element']
@@ -1803,7 +1750,6 @@ _CITATION.fields_by_name['attributes'].message_type = _CITATIONATTRIBUTE
 _SUPPORT.fields_by_name['attributes'].message_type = _SUPPORTATTRIBUTE
 DESCRIPTOR.message_types_by_name['NetworkElement'] = _NETWORKELEMENT
 DESCRIPTOR.message_types_by_name['Parameter'] = _PARAMETER
-DESCRIPTOR.message_types_by_name['Error'] = _ERROR
 DESCRIPTOR.message_types_by_name['Node'] = _NODE
 DESCRIPTOR.message_types_by_name['Edge'] = _EDGE
 DESCRIPTOR.message_types_by_name['NodeAttribute'] = _NODEATTRIBUTE
@@ -1843,13 +1789,6 @@ Parameter = _reflection.GeneratedProtocolMessageType('Parameter', (_message.Mess
   # @@protoc_insertion_point(class_scope:proto.Parameter)
   ))
 _sym_db.RegisterMessage(Parameter)
-
-Error = _reflection.GeneratedProtocolMessageType('Error', (_message.Message,), dict(
-  DESCRIPTOR = _ERROR,
-  __module__ = 'cxmate_pb2'
-  # @@protoc_insertion_point(class_scope:proto.Error)
-  ))
-_sym_db.RegisterMessage(Error)
 
 Node = _reflection.GeneratedProtocolMessageType('Node', (_message.Message,), dict(
   DESCRIPTOR = _NODE,
@@ -2050,6 +1989,30 @@ _CYVISUALPROPERTY_DEPENDENCIESENTRY.has_options = True
 _CYVISUALPROPERTY_DEPENDENCIESENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
 _CYVISUALPROPERTY_MAPPINGSENTRY.has_options = True
 _CYVISUALPROPERTY_MAPPINGSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+
+_CXMATESERVICE = _descriptor.ServiceDescriptor(
+  name='cxMateService',
+  full_name='proto.cxMateService',
+  file=DESCRIPTOR,
+  index=0,
+  options=None,
+  serialized_start=4088,
+  serialized_end=4173,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='StreamNetworks',
+    full_name='proto.cxMateService.StreamNetworks',
+    index=0,
+    containing_service=None,
+    input_type=_NETWORKELEMENT,
+    output_type=_NETWORKELEMENT,
+    options=None,
+  ),
+])
+_sym_db.RegisterServiceDescriptor(_CXMATESERVICE)
+
+DESCRIPTOR.services_by_name['cxMateService'] = _CXMATESERVICE
+
 try:
   # THESE ELEMENTS WILL BE DEPRECATED.
   # Please use the generated *_pb2_grpc.py files instead.
