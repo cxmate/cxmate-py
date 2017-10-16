@@ -265,9 +265,11 @@ class Service:
         :returns: none
         """
         logger = logging.getLogger('cxmate-py')
-        logger.setLevel = (logging.DEBUG)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        logger.setFormatter(formatter)
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setFormatter(formatter)
+        logger.addHandler(formatter)
+        logger.setLevel = (logging.DEBUG)
         server = grpc.server(ThreadPoolExecutor(max_workers=max_workers))
         servicer = ServiceServicer(logger, self.process)
         cxmate_pb2_grpc.add_cxMateServiceServicer_to_server(servicer, server)
