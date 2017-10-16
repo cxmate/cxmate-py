@@ -13,19 +13,18 @@ from . import cxmate_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
-logging.basicConfig(stream=sys.stdout, format='cxmate-py %(asctime)s %(message)s', level=logging.DEBUG)
-
 class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
     """
     CyServiceServicer is an implementation of a grpc service definiton to process CX streams
     """
 
-    def __init__(self, process):
+    def __init__(self, logger, process):
         """
         Construct a new 'CyServiceServicer' grpc service object
 
         :param process: A function that handles processing a call to the service
         """
+        self.logger = logger
         self.process = process
 
     def StreamNetworks(self, input_stream, context):
@@ -37,17 +36,17 @@ class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
         :param context: A grpc context object with request metadata
         :returns: Must generate CX protobuf objects
         """
-        uuid = str(uuid.uuid4())
-        logging.info("StreamNetworks invoked for" + uuid)
-        logging.info("processing parameters for" + uuid)
-        params, input_stream = self.process_parameters(input_stream, uuid)
-        logging.info("calling service handler for" + uuid)
+        id = str(uuid.uuid4())
+        self.logger.info("StreamNetworks invoked for " + id)
+        self.logger.info("processing parameters for " + id)
+        params, input_stream = self.process_parameters(input_stream, id)
+        self.logger.info("calling service handler for " + id)
         output_stream = self.process(params, input_stream)
-        logging.info("iterating output stream for" + uuid)
+        self.logger.info("iterating output stream for " + id)
         for element in output_stream:
             yield element
 
-    def process_parameters(self, ele_iter, uuid):
+    def process_parameters(self, ele_iter, id):
         params = {}
         for ele in ele_iter:
             if ele.WhichOneof('element') == 'parameter':
@@ -63,7 +62,7 @@ class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
                 else:
                     val = param.stringValue
                 if param.name == 'request_id':
-                    logging.info('request ' + uuid + ' has a tracing id of ' + val)
+                    logging.info('request ' + id + ' has a tracing id of ' + val)
                 params[param.name] = val
             else:
                 return params, itertools.chain([ele], ele_iter)
@@ -265,8 +264,12 @@ class Service:
         :param int max_workers: The number of worker threads serving the service, 10 by default
         :returns: none
         """
+        logger = logging.getLogger('cxmate-py')
+        logger.setLevel = (logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        logger.setFormatter(formatter)
         server = grpc.server(ThreadPoolExecutor(max_workers=max_workers))
-        servicer = ServiceServicer(self.process)
+        servicer = ServiceServicer(logger, self.process)
         cxmate_pb2_grpc.add_cxMateServiceServicer_to_server(servicer, server)
         server.add_insecure_port(listen_on)
         logging.info("starting service on " + listen_on)
