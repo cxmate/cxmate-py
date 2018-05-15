@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='cxmate',
-    version='0.12.0',
+    version='0.15.0',
     description='SDK for creating cxMate services',
     long_description="""
     cxmate-py provides a Python SDK for interacting with [cxMate](https://github.com/ericsage/cxmate), an adapter that allows Cytoscape to talk to network services. This SDK enables quick and painless development of a cxMate service, follow the Getting Started guide to learn more about the process.

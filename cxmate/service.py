@@ -62,7 +62,7 @@ class ServiceServicer(cxmate_pb2_grpc.cxMateServiceServicer):
                 else:
                     val = param.stringValue
                 if param.name == 'request_id':
-                    logging.info('request ' + id + ' has a tracing id of ' + val)
+                    self.logger.info('request ' + id + ' has a tracing id of ' + val)
                 params[param.name] = val
             else:
                 return params, itertools.chain([ele], ele_iter)
@@ -264,22 +264,22 @@ class Service:
         :param int max_workers: The number of worker threads serving the service, 10 by default
         :returns: none
         """
-        logger = logging.getLogger('cxmate-py')
+        logger = logging.getLogger(__name__)
+        logger.setLevel(logging.DEBUG)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         handler = logging.StreamHandler(sys.stdout)
         handler.setFormatter(formatter)
-        logger.addHandler(formatter)
-        logger.setLevel = (logging.DEBUG)
+        logger.addHandler(handler)
         server = grpc.server(ThreadPoolExecutor(max_workers=max_workers))
         servicer = ServiceServicer(logger, self.process)
         cxmate_pb2_grpc.add_cxMateServiceServicer_to_server(servicer, server)
         server.add_insecure_port(listen_on)
-        logging.info("starting service on " + listen_on)
+        logger.info('grpc listening on ' + listen_on + ' with ' + str(max_workers) + ' max workers')
         server.start()
         try:
             while True:
                 time.sleep(_ONE_DAY_IN_SECONDS)
         except KeyboardInterrupt:
-            logging.error("service stopped")
+            logger.error('grpc stopped')
             server.stop(0)
 
